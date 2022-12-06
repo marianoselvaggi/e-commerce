@@ -3,7 +3,7 @@ import NextLink from 'next/link';
 import { Typography, Grid, Link, CardActionArea, CardMedia, Button } from '@mui/material';
 import { Box } from '@mui/system';
 
-import { initialData } from '../../database/products';
+import { initialData } from '../../database';
 import { ItemCounter } from '../ui';
 import { FC } from 'react';
 

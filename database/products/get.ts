@@ -24,17 +24,35 @@ export const getProducts = async (gender: string) => {
     }
 };
 
-export const getProduct = async (slug: string) => {
+export const getProductBySlug = async (slug: string) => {
     try {
         await connect();
         
         const product = await Product.findOne({
             slug,
         })
-        .select('title description images slug inStock price -_id')
+        .select('title description images slug sizes inStock price -_id')
         .lean();
 
         return product;
+    } catch (err) {
+        throw err;
+    } finally {
+        await disconnect();
+    }
+}
+
+interface IProductSlug {
+    slug: string;
+};
+
+export const getProductsSlugs = async(): Promise<IProductSlug[]> =>{
+    try {
+        await connect();
+
+        const products = await Product.find().select('slug -_id').lean();
+
+        return products;
     } catch (err) {
         throw err;
     } finally {

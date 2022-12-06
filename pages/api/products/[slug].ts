@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { IProduct } from '../../../interfaces/products';
-import { getProduct } from '../../../database/products/';
+import { getProductBySlug } from '../../../database/products/';
 
 type Data = {
     message: string
@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     switch (req.method) {
         case 'GET':
-            const product = await getProduct(slug as string);
+            const product = await getProductBySlug(slug as string);
             if (!product) {
                 return res.status(404).json({ message: 'Product not found '});
             }
