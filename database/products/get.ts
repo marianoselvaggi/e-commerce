@@ -1,8 +1,9 @@
 import { connect, disconnect } from '../db';
 import { Product } from '../../models/';
 import { SHOP_CONSTANTS } from '../constants';
+import { IProduct } from '../../interfaces';
 
-export const getProducts = async (gender: string) => {
+export const getProductsByGender = async (gender: string) => {
     try {
         await connect();
 
@@ -35,6 +36,27 @@ export const getProductBySlug = async (slug: string) => {
         .lean();
 
         return product;
+    } catch (err) {
+        throw err;
+    } finally {
+        await disconnect();
+    }
+}
+
+export const getProductByTerm = async (term: string): Promise<IProduct[]> => {
+    try {
+        await connect();
+
+        term = term.toString().toLowerCase();
+
+        const products = await Product.find({
+            $text: {
+                $search: term,
+            }
+        })
+        .select('title description images slug inStock price -_id')
+        .lean();
+        return products;
     } catch (err) {
         throw err;
     } finally {

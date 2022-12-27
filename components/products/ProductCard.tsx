@@ -1,5 +1,5 @@
 import { FC, useState, useMemo } from 'react';
-import { Grid, Card, CardActionArea, CardMedia, Box, Typography, Link } from '@mui/material';
+import { Grid, Card, CardActionArea, CardMedia, Box, Typography, Link, Chip } from '@mui/material';
 import { IProduct } from '../../interfaces';
 import NextLink from 'next/link';
 
@@ -28,6 +28,14 @@ export const ProductCard: FC<Props> = ({ product }) => {
         <Link>
           <Card>
             <CardActionArea>
+                {
+                  product.inStock === 0 && (
+                  <Chip 
+                    color='secondary'
+                    label='Out of stock'
+                    sx={{ position: 'absolute', zIndex: 99, marginTop: 2, marginLeft: 2 }}
+                  />)
+                }
                 <CardMedia 
                     component='img'
                     className='fadeInd'
