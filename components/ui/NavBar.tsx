@@ -7,6 +7,7 @@ import { AppBar, Badge, Box, Button, IconButton, Input, InputAdornment, Link, To
 import { ClearOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 
 import { UiContext } from '../../context';
+import { CartContext } from '../../context/cart/CartContext';
 
 
 export const NavBar = () => {
@@ -26,6 +27,7 @@ export const NavBar = () => {
   }, [asPath]);
 
   const { toogleSideMenu } = useContext(UiContext);
+  const { numberOfItems } = useContext(CartContext);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchVisible, setSearchVisible] = useState(false);
@@ -122,7 +124,7 @@ export const NavBar = () => {
             <NextLink href='/cart' passHref>
                 <Link>
                 <IconButton>
-                    <Badge badgeContent={2} color='secondary'>
+                    <Badge badgeContent={numberOfItems > 9 ? '+' + 9 : numberOfItems} color='secondary'>
                         <ShoppingCartOutlined />
                     </Badge>
                 </IconButton>
