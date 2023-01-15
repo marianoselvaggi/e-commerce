@@ -1,6 +1,6 @@
-import { Product } from '../../models';
+import { Product, User } from '../../models';
 import { connect, disconnect } from '../db';
-import { initialData } from '../seedProducts';
+import { initialData } from '../seed-data';
 
 export const seedProducts = async () => {
     try {
@@ -11,6 +11,11 @@ export const seedProducts = async () => {
         const products: any = initialData.products;
 
         await Product.insertMany(products);
+
+        await User.deleteMany();
+        const users: any = initialData.users;
+
+        await User.insertMany(users);
 
         return;
     } catch (err) {
