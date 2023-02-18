@@ -18,6 +18,7 @@ const LoginPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const [showError, setShowError] = useState(false);
     const router = useRouter();
+    const destination = router.query.p?.toString() || '/';
 
     const { loginUser } = useContext(AuthContext)
     
@@ -31,8 +32,7 @@ const LoginPage = () => {
             setTimeout(() => setShowError(false), 3000);
             return;
         }
-
-        router.replace('/')
+        router.replace(destination)
     }
 
     return (
@@ -95,7 +95,7 @@ const LoginPage = () => {
                     </Grid>
 
                     <Grid item xs={12} my={2} textAlign='end'>
-                        <NextLink href='/auth/register' passHref>
+                        <NextLink href={`/auth/register/` + (destination ? `?p=${destination}` : '')} passHref>
                             <Link>
                                 Sign up
                             </Link>

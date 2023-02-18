@@ -18,9 +18,11 @@ type FormData = {
 const RegisterPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const [showError, setShowError] = useState(false)
-    const router = useRouter();
     const { registerUser } = useContext(AuthContext)
 
+    const router = useRouter();
+    const destination = router.query.p?.toString() || '/';
+    
     const onRegisterUser = async ({ name, email, password }: FormData) => {
         setShowError(false)
         const resp = await registerUser(name, email, password);
@@ -29,7 +31,7 @@ const RegisterPage = () => {
             setTimeout(() => setShowError(false), 3000);
             return;
         }
-        router.replace('/');
+        router.replace(destination);
     }
 
     return (
@@ -105,7 +107,7 @@ const RegisterPage = () => {
                     </Grid>
 
                     <Grid item xs={12} my={2} textAlign='end'>
-                        <NextLink href='/auth/login' passHref>
+                        <NextLink href={`/auth/login/` + (destination ? `?p=${destination}` : '')} passHref>
                             <Link>
                                 Login
                             </Link>

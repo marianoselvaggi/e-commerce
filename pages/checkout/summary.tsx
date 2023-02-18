@@ -4,8 +4,16 @@ import { Link, Card, CardContent, Divider, Grid, Typography, Box, Button } from 
 import { ShopLayout } from '../../components/layouts/ShopLayout';
 import { CartList } from '../../components/cart/CartList';
 import { OrderSummary } from '../../components/cart/OrderSummary';
+import { useContext } from 'react';
+import { CartContext } from '../../context/cart/CartContext';
+import { countries } from '../../utils/countries';
 
 const SummaryPage = () => {
+  const { shippingAddress, numberOfItems } = useContext(CartContext)
+  if (!shippingAddress) {
+    return <></>
+  }
+  const { firstName, lastName, address, address2, city, country, phone } = shippingAddress;
   return (
     <ShopLayout title={'Order summart'} pageDescription={'Summary'}>
         <Grid container>
@@ -15,7 +23,7 @@ const SummaryPage = () => {
             <Grid item xs={12} sm={5}>
               <Card className='summary-card'>
                 <CardContent>
-                  <Typography variant='h2'>Order</Typography>
+                  <Typography variant='h2'>Summary ({numberOfItems} {numberOfItems === 1 ? 'product' : 'products'})</Typography>
                   
                   <Divider sx={{ mb: 1 }} />
 
@@ -27,13 +35,12 @@ const SummaryPage = () => {
                             </Link>
                         </NextLink>
                     </Box>
-
                     
-                    <Typography>Mariano Selvaggi</Typography>
-                    <Typography>Valle 151</Typography>
-                    <Typography>Caballito, CABA</Typography>
-                    <Typography>Argentina</Typography>
-                    <Typography>+5491128123131</Typography>
+                    <Typography>{firstName}</Typography>
+                    <Typography>{address}</Typography>
+                    <Typography>{address2 || ''}</Typography>
+                    <Typography>{countries.filter(countryItem => countryItem.code === country)[0].name}</Typography>
+                    <Typography>{phone}</Typography>
 
                     <Divider sx={{ mt: 1}} />
 
